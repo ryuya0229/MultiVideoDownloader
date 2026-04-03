@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/ryuya0229/MultiVideoDownloader/releases/download/v1.0.0/app_icon_preview.png" alt="MultiVideo Downloader" width="128">
+  <img src="https://github.com/ryuya0229/MultiVideoDownloader/releases/download/v1.0.0/app_icon.ico" alt="MultiVideo Downloader" width="128">
 </p>
 
 <h1 align="center">MultiVideo Downloader & Player</h1>
