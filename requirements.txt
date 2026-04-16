@@ -1,0 +1,29 @@
+# MultiVideoDownloader - runtime dependencies
+# Versions pinned to match the local development environment.
+# Used by both local runs and CI builds.
+
+# ---- UI / Imaging ----
+pillow==12.1.1
+
+# ---- Audio metadata ----
+mutagen==1.47.0
+
+# ---- VLC media player bindings ----
+python-vlc==3.0.21203
+
+# ---- System tray ----
+pystray==0.19.5
+
+# ---- Subtitle generation (local ASR) ----
+faster-whisper==1.2.1
+ctranslate2==4.7.1
+onnxruntime==1.24.4
+
+# ---- Windows process utilities ----
+psutil>=5.9.0
+
+# ---- Transitive but explicitly required ----
+numpy==2.4.4
+tokenizers==0.22.2
+huggingface_hub==1.8.0
+tqdm==4.67.3
