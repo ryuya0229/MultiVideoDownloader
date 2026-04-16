@@ -1,0 +1,113 @@
+name: Build
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      release:
+        description: 'Create a GitHub Release (only for tag pushes)'
+        required: false
+        default: 'false'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build Windows exe
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: 'pip'
+
+      - name: Install build dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      - name: Show versions
+        run: |
+          python --version
+          pip --version
+          pyinstaller --version
+
+      - name: Build with PyInstaller
+        run: pyinstaller --clean --noconfirm MultiVideoDownloader.spec
+
+      - name: Verify artifact exists
+        shell: pwsh
+        run: |
+          if (!(Test-Path "dist/MultiVideoDownloader.exe")) {
+            Write-Error "Build artifact not found"
+            exit 1
+          }
+          $size = (Get-Item "dist/MultiVideoDownloader.exe").Length / 1MB
+          Write-Host ("Build succeeded: {0:N2} MB" -f $size)
+
+      - name: Upload unsigned artifact
+        id: upload-unsigned
+        uses: actions/upload-artifact@v4
+        with:
+          name: MultiVideoDownloader-unsigned
+          path: dist/MultiVideoDownloader.exe
+          retention-days: 14
+
+      # ------------------------------------------------------------------
+      # SignPath.io code signing (enabled after OSS application approval)
+      # ------------------------------------------------------------------
+      # Uncomment the block below AFTER SignPath.io approves the project
+      # and the following repository secrets are configured:
+      #   - SIGNPATH_API_TOKEN
+      #   - SIGNPATH_ORGANIZATION_ID
+      #   - SIGNPATH_PROJECT_SLUG
+      #   - SIGNPATH_SIGNING_POLICY_SLUG
+      #
+      # - name: Submit SignPath signing request
+      #   uses: signpath/github-action-submit-signing-request@v1
+      #   with:
+      #     api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
+      #     organization-id: ${{ secrets.SIGNPATH_ORGANIZATION_ID }}
+      #     project-slug: ${{ secrets.SIGNPATH_PROJECT_SLUG }}
+      #     signing-policy-slug: ${{ secrets.SIGNPATH_SIGNING_POLICY_SLUG }}
+      #     github-artifact-id: ${{ steps.upload-unsigned.outputs.artifact-id }}
+      #     wait-for-completion: true
+      #     output-artifact-directory: signed
+      #
+      # - name: Upload signed artifact
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: MultiVideoDownloader-signed
+      #     path: signed/MultiVideoDownloader.exe
+      #     retention-days: 30
+
+      # ------------------------------------------------------------------
+      # Create GitHub Release (triggered only when a v* tag is pushed)
+      # ------------------------------------------------------------------
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/MultiVideoDownloader.exe
+          draft: true
+          generate_release_notes: true
+          body: |
+            ## Installation
+
+            Download `MultiVideoDownloader.exe` below and run it.
+
+            > ### Windows security warning / Smart App Control
+            >
+            > This build is **unsigned**, so Windows may block the first run.
+            > See the [README](https://github.com/ryuya0229/MultiVideoDownloader#%EF%B8%8F-windows-%E3%81%AE%E3%82%BB%E3%82%AD%E3%83%A5%E3%83%AA%E3%83%86%E3%82%A3%E8%AD%A6%E5%91%8A%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6)
+            > for the unblock procedure.
+            >
+            > Code signing via [SignPath.io](https://signpath.io/) OSS plan is in progress.
