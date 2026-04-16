@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/ryuya0229/MultiVideoDownloader/blob/main/app_icon.ico" alt="MultiVideo Downloader" width="128">
+  <img src="https://github.com/ryuya0229/MultiVideoDownloader/releases/download/v1.0.0/app_icon_preview.png" alt="MultiVideo Downloader" width="128">
 </p>
 
 <h1 align="center">MultiVideo Downloader & Player</h1>
@@ -9,9 +9,9 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-1.0.8-blue" alt="Version">
+  <img src="https://img.shields.io/badge/version-1.1.1-blue" alt="Version">
   <img src="https://img.shields.io/badge/platform-Windows-0078D6?logo=windows" alt="Platform">
-  <img src="https://img.shields.io/badge/license-Personal_Use-green" alt="License">
+  <img src="https://img.shields.io/badge/license-MIT-green" alt="License">
 </p>
 
 ---
@@ -71,6 +71,44 @@
 
 ---
 
+## ⚠️ Windows のセキュリティ警告について
+
+本アプリは個人開発のため **コード署名を行っていません**。
+そのため、Windows の以下の機能によって警告・ブロックされる場合があります：
+
+- **SmartScreen**：「WindowsによってPCが保護されました」の警告
+- **Smart App Control (SAC)**：exe の起動自体をブロック
+- **Windows Defender**：誤検知による隔離
+
+### 回避手順
+
+#### ① SmartScreen 警告が出た場合
+1. 警告画面の **「詳細情報」** をクリック
+2. 下に表示される **「実行」** ボタンをクリック
+
+#### ② Smart App Control でブロックされた場合
+ダウンロードした `.exe` / `ffmpeg.exe` / `yt-dlp.exe` それぞれに対して：
+
+1. ファイルを右クリック → **「プロパティ」**
+2. 「全般」タブの最下部にある **「許可する」** にチェック
+3. **「OK」** をクリック
+4. 再度ダブルクリックで起動
+
+> 💡 上記オプションが表示されない場合は、Smart App Control を一時的に**「評価モード」**に変更してください。
+> `設定` → `プライバシーとセキュリティ` → `Windows セキュリティ` → `アプリとブラウザー制御` → `スマートアプリコントロール`
+
+#### ③ Windows Defender にブロックされた場合
+1. `Windows セキュリティ` を開く
+2. `ウイルスと脅威の防止` → `保護の履歴`
+3. 該当項目を選択 → **「許可」** または **「復元」**
+
+### 将来的な対応
+
+現在 [SignPath.io](https://signpath.io/) のオープンソース無料枠で
+コード署名を取得申請中です。署名対応後はこれらの警告は段階的に解消されます。
+
+---
+
 ## Disclaimer
 
 本ソフトウェアは動画・音声のダウンロード機能を提供します。
@@ -82,6 +120,15 @@
 ## Author
 
 **ryuya0229**
+
+---
+
+## License
+
+This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
+
+Bundled third-party components (yt-dlp, FFmpeg, VLC, faster-whisper) are
+downloaded at runtime and retain their respective licenses.
 
 ---
 
