@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/ryuya0229/MultiVideoDownloader/refs/heads/main/app_icon.ico" alt="MultiVideo Downloader" width="128">
+  <img src="https://github.com/ryuya0229/MultiVideoDownloader/releases/download/v1.0.0/app_icon_preview.png" alt="MultiVideo Downloader" width="128">
 </p>
 
 <h1 align="center">MultiVideo Downloader & Player</h1>
@@ -96,6 +96,15 @@
 
 > 💡 上記オプションが表示されない場合は、Smart App Control を一時的に**「評価モード」**に変更してください。
 > `設定` → `プライバシーとセキュリティ` → `Windows セキュリティ` → `アプリとブラウザー制御` → `スマートアプリコントロール`
+
+#### ④ タスクバーにピン留め後、2回目以降が起動しない場合
+
+「アプリケーション制御ポリシーによってこのファイルがブロックされました」と表示される場合：
+
+1. タスクバーのアイコンを右クリック → **「タスクバーからピン留めを外す」**
+2. `MultiVideoDownloader.exe` を右クリック → **「プロパティ」** → **「許可する」** にチェック → **「OK」**
+3. exe をダブルクリックで起動
+4. 起動後にタスクバーへ**再ピン留め**
 
 #### ③ Windows Defender にブロックされた場合
 1. `Windows セキュリティ` を開く
